@@ -18,6 +18,27 @@
           (else
             (error "Unknown expression type: EVAL" exp))))
 
-;  TODO: refer to DDP in SICP 
-; page 270/272
-; think of it as a table
+
+(define (operator exp) (car exp))
+(define (operands exp) (cdr exp))
+
+; install-eval-package required?
+(define (install-eval-package)
+  (define (self-evaluating? exp) exp)
+  (define (variable? exp)
+    (lookup-variable-value exp env))
+  (define (quoted? exp) (text-of-quotation exp))
+    
+  (define (tag x) (attach-tag 'eval x))
+  (put 'self-evaluating? '(eval) self-evaluating?)
+  (put 'variable? '(eval) variable?)
+  (put 'quoted? '(eval) quoted?))
+
+; Sphinxsky:
+(define (eval- exp env)
+  ; ...
+  (else
+    (let ((op (get 'eval (car exp)))
+      (op exp env)))))
+
+; think modular procedure, not case by case!!
